@@ -25,37 +25,60 @@
         body {
             margin: 0;
             min-height: 100vh;
+            padding: 24px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
             font-family: 'DM Sans', sans-serif;
             color: var(--text);
-            background: #eaf1ff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 28px;
+
+            background: linear-gradient(
+                to bottom,
+                #fff3e9 0%,
+                #f7f1ef 18%,
+                #e7eeff 38%,
+                #a7c9f7 58%,
+                #4286df 78%,
+                #111184 100%
+            );
+
+            background-attachment: fixed;
         }
+
+        /* MAIN CONTAINER */
 
         .auth-container {
             width: 100%;
-            max-width: 1250px;
-            min-height: 760px;
+            max-width: 950px;
+            min-height: 500px;
+
             display: grid;
             grid-template-columns: 1fr 1fr;
-            border-radius: 30px;
+
+            border-radius: 24px;
             overflow: hidden;
             background: white;
-            box-shadow: 0 22px 65px rgba(20, 37, 100, 0.12);
+
+            box-shadow:
+                0 25px 65px rgba(7, 20, 90, 0.18),
+                0 8px 24px rgba(17, 17, 132, 0.08);
         }
 
-        /* LEFT PANEL */
+        /* LEFT BRAND PANEL */
 
         .brand-panel {
             position: relative;
             overflow: hidden;
-            padding: 52px;
+            padding: 30px;
+
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+
             color: white;
+
             background: linear-gradient(
                 145deg,
                 #111184 0%,
@@ -68,23 +91,23 @@
         .brand-panel::before {
             content: "";
             position: absolute;
-            width: 900px;
-            height: 900px;
+            width: 700px;
+            height: 700px;
             border-radius: 50%;
-            background: rgba(5, 32, 150, 0.18);
-            top: -370px;
-            left: -420px;
+            background: rgba(5, 32, 150, 0.16);
+            top: -290px;
+            left: -330px;
         }
 
         .brand-panel::after {
             content: "";
             position: absolute;
-            width: 900px;
-            height: 900px;
+            width: 650px;
+            height: 650px;
             border-radius: 50%;
-            border: 110px solid rgba(255,255,255,0.045);
-            bottom: -710px;
-            right: -430px;
+            border: 90px solid rgba(255,255,255,0.045);
+            bottom: -520px;
+            right: -300px;
         }
 
         .logo,
@@ -95,16 +118,16 @@
         }
 
         .logo {
-            font-size: 35px;
+            font-size: 29px;
             font-weight: 800;
-            letter-spacing: -1.5px;
+            letter-spacing: -1.3px;
         }
 
         .brand-content h1 {
-            margin: 0 0 24px;
-            font-size: clamp(38px, 4.2vw, 60px);
-            line-height: 1.14;
-            letter-spacing: -2px;
+            margin: 0 0 16px;
+            font-size: clamp(30px, 3vw, 40px);
+            line-height: 1.15;
+            letter-spacing: -1.3px;
             font-weight: 800;
         }
 
@@ -113,21 +136,21 @@
         }
 
         .brand-content p {
-            font-size: 17px;
-            line-height: 1.8;
+            max-width: 350px;
+            font-size: 14px;
+            line-height: 1.7;
             color: #e2ebff;
-            max-width: 410px;
         }
 
         .brand-footer {
-            font-size: 13px;
+            font-size: 11px;
             color: #e2ebff;
         }
 
-        /* RIGHT PANEL */
+        /* RIGHT FORM PANEL */
 
         .form-panel {
-            padding: 65px 65px;
+            padding: 28px 32px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -135,89 +158,104 @@
 
         .form-box {
             width: 100%;
-            max-width: 450px;
+            max-width: 350px;
         }
 
         .form-box h2 {
-            margin: 0 0 10px;
-            font-size: 34px;
+            margin: 0 0 8px;
+            font-size: 26px;
             font-weight: 800;
-            letter-spacing: -1.1px;
+            letter-spacing: -1px;
         }
 
         .subtitle {
             color: var(--muted);
-            line-height: 1.6;
-            font-size: 15px;
-            margin-bottom: 32px;
+            font-size: 12px;
+            line-height: 1.5;
+            margin-bottom: 17px;
         }
 
+        /* FORM FIELDS */
+
         .form-group {
-            margin-bottom: 17px;
+            margin-bottom: 10px;
+            min-width: 0;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 7px;
-            font-size: 13px;
+            margin-bottom: 5px;
+            font-size: 12px;
             font-weight: 700;
         }
 
-        .form-group input {
+        .form-control {
             width: 100%;
-            min-height: 46px;
+            min-height: 39px;
+            padding: 9px 12px;
+
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px 15px;
+            border-radius: 9px;
+
             font-family: inherit;
-            font-size: 14px;
+            font-size: 12px;
             color: var(--text);
             background: #fbfcff;
+
             outline: none;
             transition: 0.2s;
         }
 
-        .form-group input:focus {
+        .form-control:focus {
             border-color: var(--blue);
-            box-shadow: 0 0 0 4px rgba(40, 100, 232, 0.1);
+            box-shadow: 0 0 0 3px rgba(40,100,232,0.10);
             background: white;
         }
 
-        .field-help {
-            color: var(--muted);
-            font-size: 11px;
-            line-height: 1.5;
-            margin-top: 5px;
-        }
-
-        .field-help ul {
-            padding-left: 17px;
-            margin: 6px 0;
-        }
-
-        .field-error {
-            font-size: 12px;
-            color: #c53045;
-            margin-top: 5px;
+        .form-control::placeholder {
+            color: #9ba7bd;
         }
 
         .name-row {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 12px;
         }
+
+        .field-help {
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.4;
+            margin-top: 4px;
+        }
+
+        .field-help ul {
+            margin: 4px 0;
+            padding-left: 15px;
+        }
+
+        .field-error {
+            color: #c53045;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        /* BUTTON */
 
         .submit-btn {
             width: 100%;
-            margin-top: 10px;
+            margin-top: 8px;
+            padding: 12px;
+
             border: none;
-            border-radius: 11px;
+            border-radius: 10px;
+
             background: var(--navy);
             color: white;
-            padding: 15px;
             font-family: inherit;
-            font-size: 15px;
+            font-size: 13px;
             font-weight: 700;
+
             cursor: pointer;
             transition: 0.2s;
         }
@@ -227,24 +265,37 @@
             transform: translateY(-1px);
         }
 
+        .submit-btn:focus-visible {
+            outline: 3px solid var(--light-blue);
+            outline-offset: 3px;
+        }
+
+        /* LOGIN LINK */
+
         .login-link {
             text-align: center;
-            margin-top: 25px;
+            margin-top: 17px;
             color: var(--muted);
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .login-link a {
             color: var(--navy);
-            text-decoration: none;
             font-weight: 800;
+            text-decoration: none;
         }
 
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* MESSAGES */
+
         .alert {
-            padding: 13px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            font-size: 13px;
+            padding: 11px;
+            border-radius: 9px;
+            margin-bottom: 14px;
+            font-size: 12px;
         }
 
         .alert-success {
@@ -258,32 +309,48 @@
             color: #a32235;
         }
 
-        @media (max-width: 900px) {
+        /* RESPONSIVE DESIGN */
+
+        @media (max-width: 760px) {
+            body {
+                padding: 14px;
+            }
+
             .auth-container {
                 grid-template-columns: 1fr;
+                min-height: auto;
             }
 
             .brand-panel {
-                min-height: 270px;
-                padding: 32px;
+                min-height: 210px;
+                padding: 25px;
             }
 
             .brand-content h1 {
-                font-size: 35px;
+                font-size: 29px;
             }
 
             .brand-content p {
-                font-size: 14px;
+                font-size: 12px;
             }
 
             .form-panel {
-                padding: 45px 28px;
+                padding: 30px 25px;
             }
         }
 
-        @media (max-width: 500px) {
+        @media (max-width: 450px) {
             body {
                 padding: 10px;
+            }
+
+            .brand-panel {
+                min-height: 190px;
+                padding: 22px;
+            }
+
+            .brand-content h1 {
+                font-size: 26px;
             }
 
             .name-row {
@@ -291,20 +358,43 @@
                 gap: 0;
             }
 
+            .form-panel {
+                padding: 25px 20px;
+            }
+
             .form-box h2 {
-                font-size: 28px;
+                font-size: 24px;
+            }
+        }
+
+        @media (max-height: 650px) and (min-width: 761px) {
+            body {
+                padding: 14px;
+            }
+
+            .brand-panel,
+            .form-panel {
+                padding: 24px;
+            }
+
+            .brand-content h1 {
+                font-size: 32px;
             }
         }
     </style>
 </head>
 
 <body>
+
     <main class="auth-container">
 
-        <!-- LEFT: SPLITLY BRAND -->
+        <!-- LEFT: BRAND PANEL -->
+
         <section class="brand-panel">
 
-            <div class="logo">Splitly.</div>
+            <div class="logo">
+                Splitly.
+            </div>
 
             <div class="brand-content">
                 <h1>
@@ -326,8 +416,8 @@
         </section>
 
         <!-- RIGHT: REGISTRATION FORM -->
-        <section class="form-panel">
 
+        <section class="form-panel">
             <div class="form-box">
 
                 <h2>Create your account</h2>
@@ -354,37 +444,184 @@
                         </div>
                     {% endif %}
 
-                    {% for field in form %}
+                    <!-- USERNAME -->
 
-                        {% if field.name == 'first_name' %}
-                            <div class="name-row">
-                        {% endif %}
+                    <div class="form-group">
+                        <label for="id_username">Username</label>
+
+                        <input
+                            type="text"
+                            id="id_username"
+                            name="username"
+                            class="form-control"
+                            placeholder="Choose a username"
+                            value="{{ form.username.value|default_if_none:'' }}"
+                            autocomplete="username"
+                            maxlength="150"
+                            required
+                        >
+
+                        {% for error in form.username.errors %}
+                            <div class="field-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- FIRST AND LAST NAME -->
+
+                    <div class="name-row">
 
                         <div class="form-group">
-                            <label for="{{ field.id_for_label }}">
-                                {{ field.label }}
+                            <label for="id_first_name">
+                                First Name
                             </label>
 
-                            {{ field }}
+                            <input
+                                type="text"
+                                id="id_first_name"
+                                name="first_name"
+                                class="form-control"
+                                placeholder="First name"
+                                value="{{ form.first_name.value|default_if_none:'' }}"
+                                maxlength="150"
+                                required
+                            >
 
-                            {% for error in field.errors %}
+                            {% for error in form.first_name.errors %}
                                 <div class="field-error">
                                     {{ error }}
                                 </div>
                             {% endfor %}
-
-                            {% if field.help_text %}
-                                <div class="field-help">
-                                    {{ field.help_text }}
-                                </div>
-                            {% endif %}
                         </div>
 
-                        {% if field.name == 'last_name' %}
+                        <div class="form-group">
+                            <label for="id_last_name">
+                                Last Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="id_last_name"
+                                name="last_name"
+                                class="form-control"
+                                placeholder="Last name"
+                                value="{{ form.last_name.value|default_if_none:'' }}"
+                                maxlength="150"
+                                required
+                            >
+
+                            {% for error in form.last_name.errors %}
+                                <div class="field-error">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+                        <label for="id_email">Email Address</label>
+
+                        <input
+                            type="email"
+                            id="id_email"
+                            name="email"
+                            class="form-control"
+                            placeholder="Enter your email"
+                            value="{{ form.email.value|default_if_none:'' }}"
+                            autocomplete="email"
+                            maxlength="254"
+                            required
+                        >
+
+                        {% for error in form.email.errors %}
+                            <div class="field-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- CONTACT NUMBER -->
+
+                    <div class="form-group">
+                        <label for="id_contact_number">
+                            Contact Number (Optional)
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="id_contact_number"
+                            name="contact_number"
+                            class="form-control"
+                            placeholder="Enter your contact number"
+                            value="{{ form.contact_number.value|default_if_none:'' }}"
+                            autocomplete="tel"
+                            maxlength="15"
+                        >
+
+                        {% for error in form.contact_number.errors %}
+                            <div class="field-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- PASSWORD -->
+
+                    <div class="form-group">
+                        <label for="id_password1">Password</label>
+
+                        <input
+                            type="password"
+                            id="id_password1"
+                            name="password1"
+                            class="form-control"
+                            placeholder="Create a password"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                        {% for error in form.password1.errors %}
+                            <div class="field-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+
+                        {% if form.password1.help_text %}
+                            <div class="field-help">
+                                {{ form.password1.help_text }}
                             </div>
                         {% endif %}
+                    </div>
 
-                    {% endfor %}
+                    <!-- PASSWORD CONFIRMATION -->
+
+                    <div class="form-group">
+                        <label for="id_password2">
+                            Confirm Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="id_password2"
+                            name="password2"
+                            class="form-control"
+                            placeholder="Confirm your password"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                        {% for error in form.password2.errors %}
+                            <div class="field-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- SUBMIT BUTTON -->
 
                     <button type="submit" class="submit-btn">
                         Create Account →
@@ -394,12 +631,15 @@
 
                 <p class="login-link">
                     Already have an account?
-                    <a href="{% url 'login' %}">Log In</a>
+                    <a href="{% url 'login' %}">
+                        Log In
+                    </a>
                 </p>
 
             </div>
         </section>
 
     </main>
+
 </body>
 </html>
