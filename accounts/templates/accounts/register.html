@@ -4,48 +4,337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | Splitly</title>
+    <title>Create Account | Splitly</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --navy: #111184;
+            --blue: #2864e8;
+            --light-blue: #a9ceff;
+            --text: #131b3a;
+            --muted: #64708a;
+            --border: #dce4f3;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background: #f4f7fb;
+            margin: 0;
             min-height: 100vh;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text);
+            background: #eaf1ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 28px;
         }
 
-        .register-card {
-            max-width: 520px;
-            margin: 50px auto;
-            border: none;
-            border-radius: 16px;
+        .auth-container {
+            width: 100%;
+            max-width: 1250px;
+            min-height: 760px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-radius: 30px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 22px 65px rgba(20, 37, 100, 0.12);
         }
 
-        .brand {
-            color: #2563eb;
+        /* LEFT PANEL */
+
+        .brand-panel {
+            position: relative;
+            overflow: hidden;
+            padding: 52px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: white;
+            background: linear-gradient(
+                145deg,
+                #111184 0%,
+                #183db6 38%,
+                #2864e8 70%,
+                #a9ceff 100%
+            );
+        }
+
+        .brand-panel::before {
+            content: "";
+            position: absolute;
+            width: 900px;
+            height: 900px;
+            border-radius: 50%;
+            background: rgba(5, 32, 150, 0.18);
+            top: -370px;
+            left: -420px;
+        }
+
+        .brand-panel::after {
+            content: "";
+            position: absolute;
+            width: 900px;
+            height: 900px;
+            border-radius: 50%;
+            border: 110px solid rgba(255,255,255,0.045);
+            bottom: -710px;
+            right: -430px;
+        }
+
+        .logo,
+        .brand-content,
+        .brand-footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            font-size: 35px;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+        }
+
+        .brand-content h1 {
+            margin: 0 0 24px;
+            font-size: clamp(38px, 4.2vw, 60px);
+            line-height: 1.14;
+            letter-spacing: -2px;
             font-weight: 800;
         }
 
-        .form-control {
-            margin-bottom: 12px;
+        .brand-content h1 span {
+            color: #bfdcff;
         }
 
-        .btn-primary {
-            background: #2563eb;
+        .brand-content p {
+            font-size: 17px;
+            line-height: 1.8;
+            color: #e2ebff;
+            max-width: 410px;
+        }
+
+        .brand-footer {
+            font-size: 13px;
+            color: #e2ebff;
+        }
+
+        /* RIGHT PANEL */
+
+        .form-panel {
+            padding: 65px 65px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-box {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .form-box h2 {
+            margin: 0 0 10px;
+            font-size: 34px;
+            font-weight: 800;
+            letter-spacing: -1.1px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 15px;
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .form-group input {
+            width: 100%;
+            min-height: 46px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-family: inherit;
+            font-size: 14px;
+            color: var(--text);
+            background: #fbfcff;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 4px rgba(40, 100, 232, 0.1);
+            background: white;
+        }
+
+        .field-help {
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.5;
+            margin-top: 5px;
+        }
+
+        .field-help ul {
+            padding-left: 17px;
+            margin: 6px 0;
+        }
+
+        .field-error {
+            font-size: 12px;
+            color: #c53045;
+            margin-top: 5px;
+        }
+
+        .name-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            margin-top: 10px;
             border: none;
+            border-radius: 11px;
+            background: var(--navy);
+            color: white;
+            padding: 15px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #2929b2;
+            transform: translateY(-1px);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .login-link a {
+            color: var(--navy);
+            text-decoration: none;
+            font-weight: 800;
+        }
+
+        .alert {
+            padding: 13px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .alert-success {
+            background: #e9f8ed;
+            color: #18723c;
+        }
+
+        .alert-danger,
+        .alert-error {
+            background: #fff0f1;
+            color: #a32235;
+        }
+
+        @media (max-width: 900px) {
+            .auth-container {
+                grid-template-columns: 1fr;
+            }
+
+            .brand-panel {
+                min-height: 270px;
+                padding: 32px;
+            }
+
+            .brand-content h1 {
+                font-size: 35px;
+            }
+
+            .brand-content p {
+                font-size: 14px;
+            }
+
+            .form-panel {
+                padding: 45px 28px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            body {
+                padding: 10px;
+            }
+
+            .name-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .form-box h2 {
+                font-size: 28px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="card register-card shadow-sm">
-            <div class="card-body p-4 p-md-5">
+    <main class="auth-container">
 
-                <h2 class="brand text-center">Splitly</h2>
-                <p class="text-center text-muted">
-                    Create an account to manage shared expenses
+        <!-- LEFT: SPLITLY BRAND -->
+        <section class="brand-panel">
+
+            <div class="logo">Splitly.</div>
+
+            <div class="brand-content">
+                <h1>
+                    Manage shared<br>
+                    expenses,
+                    <span>together.</span>
+                </h1>
+
+                <p>
+                    Split bills, track payments, and keep
+                    everyone on the same page.
+                </p>
+            </div>
+
+            <div class="brand-footer">
+                © 2026 Splitly. Split expenses. Share more.
+            </div>
+
+        </section>
+
+        <!-- RIGHT: REGISTRATION FORM -->
+        <section class="form-panel">
+
+            <div class="form-box">
+
+                <h2>Create your account</h2>
+
+                <p class="subtitle">
+                    Join Splitly and start managing shared
+                    expenses with your groups.
                 </p>
 
                 {% if messages %}
@@ -66,48 +355,51 @@
                     {% endif %}
 
                     {% for field in form %}
-                        <div class="mb-3">
-                            <label for="{{ field.id_for_label }}"
-                                   class="form-label">
+
+                        {% if field.name == 'first_name' %}
+                            <div class="name-row">
+                        {% endif %}
+
+                        <div class="form-group">
+                            <label for="{{ field.id_for_label }}">
                                 {{ field.label }}
                             </label>
 
-                            <input
-                                type="{{ field.field.widget.input_type|default:'text' }}"
-                                name="{{ field.html_name }}"
-                                id="{{ field.id_for_label }}"
-                                class="form-control"
-                                value="{% if field.field.widget.input_type != 'password' %}{{ field.value|default_if_none:'' }}{% endif %}"
-                                {% if field.field.required %}required{% endif %}
-                            >
+                            {{ field }}
 
                             {% for error in field.errors %}
-                                <div class="text-danger small">
+                                <div class="field-error">
                                     {{ error }}
                                 </div>
                             {% endfor %}
 
                             {% if field.help_text %}
-                                <div class="form-text">
+                                <div class="field-help">
                                     {{ field.help_text }}
                                 </div>
                             {% endif %}
                         </div>
+
+                        {% if field.name == 'last_name' %}
+                            </div>
+                        {% endif %}
+
                     {% endfor %}
 
-                    <button type="submit"
-                            class="btn btn-primary w-100 py-2">
-                        Create Account
+                    <button type="submit" class="submit-btn">
+                        Create Account →
                     </button>
+
                 </form>
 
-                <p class="text-center mt-4 mb-0">
+                <p class="login-link">
                     Already have an account?
-                    <a href="{% url 'login' %}">Log in</a>
+                    <a href="{% url 'login' %}">Log In</a>
                 </p>
 
             </div>
-        </div>
-    </div>
+        </section>
+
+    </main>
 </body>
 </html>
