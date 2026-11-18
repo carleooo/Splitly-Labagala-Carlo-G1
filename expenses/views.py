@@ -6,6 +6,9 @@ from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
+from .forms import ExpenseForm
+from .models import Expense
+from .services import split_expense_equally
 
 from .forms import ExpenseGroupForm, AddGroupMemberForm
 from .models import ExpenseGroup, GroupMembership
@@ -171,3 +174,161 @@ def group_add_member(request, pk):
         )
 
     return redirect("expenses:group_detail", pk=group.pk)
+
+
+# ========================================
+# EXPENSE TRACKING AND SPLITTING
+# ========================================
+
+def accessible_group(user, pk):
+    """Return a group only if the user belongs to it."""
+    return get_object_or_404(
+        ExpenseGroup.objects.filter(
+            Q(created_by=user) |
+            Q(memberships__user=user)
+        ).distinct(),
+        pk=pk,
+    )
+
+
+@login_required
+def expense_list(request, group_pk):
+    group = accessible_group(request.user, group_pk)
+
+    expenses = (
+        Expense.objects.filter(group=group)
+        .select_related("paid_by", "created_by")
+        .prefetch_related("shares__user")
+        .order_by("-created_at")
+    )
+
+    return render(
+        request,
+        "expenses/expense_list.html",
+        {
+            "group": group,
+            "expenses": expenses,
+        }
+    )
+
+
+@login_required
+def expense_create(request, group_pk):
+    group = accessible_group(request.user, group_pk)
+
+    if request.method == "POST":
+        form = ExpenseForm(request.POST, group=group)
+
+        if form.is_valid():
+            try:
+                with transaction.atomic():
+                    expense = form.save(commit=False)
+                    expense.group = group
+                    expense.created_by = request.user
+                    expense.save()
+
+                    split_expense_equally(expense)
+
+            except ValueError as error:
+                form.add_error(None, str(error))
+            else:
+                messages.success(
+                    request,
+                    "Expense created and split successfully!"
+                )
+                return redirect(
+                    "expenses:expense_list",
+                    group_pk=group.pk,
+                )
+    else:
+        form = ExpenseForm(group=group)
+
+    return render(
+        request,
+        "expenses/expense_form.html",
+        {
+            "group": group,
+            "form": form,
+            "page_title": "Add Expense",
+            "button_text": "Save Expense",
+        }
+    )
+
+
+@login_required
+def expense_edit(request, group_pk, pk):
+    group = accessible_group(request.user, group_pk)
+
+    expense = get_object_or_404(
+        Expense,
+        pk=pk,
+        group=group,
+        created_by=request.user,
+    )
+
+    if request.method == "POST":
+        form = ExpenseForm(
+            request.POST,
+            instance=expense,
+            group=group,
+        )
+
+        if form.is_valid():
+            try:
+                with transaction.atomic():
+                    expense = form.save()
+                    split_expense_equally(expense)
+
+            except ValueError as error:
+                form.add_error(None, str(error))
+            else:
+                messages.success(
+                    request,
+                    "Expense updated successfully!"
+                )
+                return redirect(
+                    "expenses:expense_list",
+                    group_pk=group.pk,
+                )
+    else:
+        form = ExpenseForm(
+            instance=expense,
+            group=group,
+        )
+
+    return render(
+        request,
+        "expenses/expense_form.html",
+        {
+            "group": group,
+            "form": form,
+            "page_title": "Edit Expense",
+            "button_text": "Save Changes",
+        }
+    )
+
+
+@login_required
+@require_POST
+def expense_delete(request, group_pk, pk):
+    group = accessible_group(request.user, group_pk)
+
+    expense = get_object_or_404(
+        Expense,
+        pk=pk,
+        group=group,
+        created_by=request.user,
+    )
+
+    expense.delete()
+
+    messages.success(
+        request,
+        "Expense deleted successfully!"
+    )
+
+    return redirect(
+        "expenses:expense_list",
+        group_pk=group.pk,
+    )
+

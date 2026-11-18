@@ -2,6 +2,8 @@
 from django import forms
 
 from .models import ExpenseGroup
+from decimal import Decimal
+from .models import Expense, GroupMembership
 
 
 class ExpenseGroupForm(forms.ModelForm):
@@ -51,3 +53,50 @@ class AddGroupMemberForm(forms.Form):
             )
 
         return username
+
+
+class ExpenseForm(forms.ModelForm):
+    class Meta:
+        model = Expense
+        fields = ["title", "amount", "paid_by"]
+
+        widgets = {
+            "title": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "e.g. Dinner at Jollibee",
+            }),
+            "amount": forms.NumberInput(attrs={
+                "class": "form-control",
+                "placeholder": "0.00",
+                "min": "0.01",
+                "step": "0.01",
+            }),
+            "paid_by": forms.Select(attrs={
+                "class": "form-control",
+            }),
+        }
+
+    def __init__(self, *args, group, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        member_ids = GroupMembership.objects.filter(
+            group=group
+        ).values_list("user_id", flat=True)
+
+        self.fields["paid_by"].queryset = (
+            self.fields["paid_by"]
+            .queryset.filter(pk__in=member_ids)
+            .order_by("username")
+        )
+
+        self.fields["paid_by"].label = "Paid By"
+
+    def clean_amount(self):
+        amount = self.cleaned_data["amount"]
+
+        if amount < Decimal("0.01"):
+            raise forms.ValidationError(
+                "Expense amount must be greater than zero."
+            )
+
+        return amount

@@ -89,6 +89,10 @@
                     <strong>Group Owner:</strong>
                     {{ group.created_by.username }}
                 </p>
+                <a href="{% url 'expenses:expense_list' group.pk %}"
+                class="btn btn-blue mt-3">
+                    View Expenses →
+                </a>
             </div>
 
             {% if is_owner %}
