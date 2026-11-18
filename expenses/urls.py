@@ -35,4 +35,31 @@ urlpatterns = [
         views.group_add_member,
         name="group_add_member"
     ),
+
+    # Expense tracking routes
+
+    path(
+        "groups/<int:group_pk>/expenses/",
+        views.expense_list,
+        name="expense_list",
+    ),
+
+    path(
+        "groups/<int:group_pk>/expenses/create/",
+        views.expense_create,
+        name="expense_create",
+    ),
+
+    path(
+        "groups/<int:group_pk>/expenses/<int:pk>/edit/",
+        views.expense_edit,
+        name="expense_edit",
+    ),
+
+    path(
+        "groups/<int:group_pk>/expenses/<int:pk>/delete/",
+        views.expense_delete,
+        name="expense_delete",
+    ),
+
 ]
