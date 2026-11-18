@@ -100,17 +100,26 @@
             <div class="col-md-6">
                 <div class="card dashboard-card shadow-sm">
                     <div class="card-body p-4">
-                        <h5 class="fw-bold">Shared Expenses</h5>
-                        <hr>
+                        
+                    <h5 class="fw-bold">My Expense Groups</h5>
+                    <hr>
 
-                        <p class="text-muted">
-                            Your expense groups and balances will
-                            appear here in future development phases.
-                        </p>
+                    <p class="text-muted">
+                        Create expense groups, add members, and
+                        organize shared expenses with your friends.
+                    </p>
 
-                        <span class="badge bg-primary">
-                            Coming Soon
-                        </span>
+                    <a href="{% url 'expenses:group_list' %}"
+                    class="btn btn-primary mt-2"
+                    style="
+                        background-color: #111184;
+                        border-color: #111184;
+                        border-radius: 10px;
+                        padding: 10px 20px;
+                    ">
+                        Manage Groups →
+                    </a>
+
                     </div>
                 </div>
             </div>

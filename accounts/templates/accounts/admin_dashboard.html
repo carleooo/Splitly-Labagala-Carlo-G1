@@ -89,6 +89,30 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- EXPENSE GROUPS -->
+            <div class="col-md-6">
+                <div class="card dashboard-card shadow-sm">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold">Expense Groups</h5>
+
+                        <p class="text-muted">
+                            Create and manage expense groups,
+                            add members, and organize shared expenses.
+                        </p>
+
+                        <a href="{% url 'expenses:group_list' %}"
+                        class="btn btn-primary"
+                        style="
+                            background-color: #111184;
+                            border-color: #111184;
+                            border-radius: 10px;
+                        ">
+                            Manage Groups →
+                        </a>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </main>
