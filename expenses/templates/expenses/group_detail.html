@@ -3,185 +3,1090 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{{ group.name }} | Splitly</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
 
     <style>
-        body {
-            background: #f3f6ff;
-            color: #131b3a;
-            font-family: Arial, sans-serif;
+        :root {
+            --navy: #082977;
+            --blue: #1260e5;
+            --light-blue: #a9ceff;
+            --text: #10234c;
+            --muted: #65728f;
+            --line: #e7edf7;
+            --danger: #dc3545;
         }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 34px;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(
+                    circle at 10% 6%,
+                    #f8fbff,
+                    transparent 42%
+                ),
+                linear-gradient(
+                    135deg,
+                    #e1ecff,
+                    #edf3ff 52%,
+                    #d6e6ff
+                );
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        .app-shell {
+            max-width: 1450px;
+            min-height: calc(100vh - 68px);
+            margin: auto;
+            padding: 24px;
+            background: rgba(255, 255, 255, .56);
+            border: 1px solid rgba(255, 255, 255, .8);
+            border-radius: 32px;
+            box-shadow: 0 24px 65px rgba(31, 73, 154, .10);
+        }
+
+        /* NAVIGATION */
 
         .navbar {
-            background: #111184;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 0 12px 28px;
         }
 
-        .page-container {
-            max-width: 950px;
-            margin: 40px auto;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--navy);
+            font-size: 31px;
+            font-weight: 800;
+            letter-spacing: -1.8px;
+        }
+
+        .brand-symbol {
+            position: relative;
+            width: 38px;
+            height: 38px;
+        }
+
+        .brand-symbol span {
+            position: absolute;
+            width: 24px;
+            height: 31px;
+            border-radius: 50%;
+            transform: rotate(28deg);
+        }
+
+        .brand-symbol span:nth-child(1) {
+            background: #80bcff;
+            left: 1px;
+            top: 2px;
+        }
+
+        .brand-symbol span:nth-child(2) {
+            background: #317eff;
+            left: 12px;
+            top: 7px;
+            opacity: .85;
+        }
+
+        .brand-symbol span:nth-child(3) {
+            background: #0039be;
+            left: 17px;
+            top: 11px;
+            width: 19px;
+            height: 24px;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .nav-item {
+            padding: 13px 19px;
+            font-size: 13px;
+            font-weight: 800;
+            color: #435371;
+            border-radius: 30px;
+            transition: .2s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: var(--light-blue);
+            color: var(--navy);
+        }
+
+        .nav-item.disabled {
+            color: #99a7bd;
+            cursor: default;
+        }
+
+        .profile-icon {
+            display: grid;
+            place-items: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            color: #0761cb;
+            background: #d9eaff;
+            font-size: 23px;
+        }
+
+        .profile-icon:hover {
+            background: #bdd8ff;
+        }
+
+        /* BREADCRUMB */
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 4px 10px 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--muted);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--blue);
+        }
+
+        .breadcrumb .current {
+            color: var(--navy);
+            overflow-wrap: anywhere;
+        }
+
+        /* GROUP HEADER */
+
+        .group-hero {
+            background: linear-gradient(
+                120deg,
+                #c7e0ff,
+                #99c8ff
+            );
+            border-radius: 26px;
+            padding: 30px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .hero-main {
+            min-width: 0;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: rgba(255,255,255,.65);
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 15px;
+        }
+
+        .group-hero h1 {
+            font-size: clamp(26px, 3vw, 36px);
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin: 0 0 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .hero-description {
+            color: #405777;
+            font-size: 13px;
+            line-height: 1.7;
+            max-width: 650px;
+            margin: 0 0 18px;
+            overflow-wrap: anywhere;
+        }
+
+        .owner-info {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 12px;
+            color: #334d76;
+            font-weight: 600;
+        }
+
+        .owner-avatar {
+            display: grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: white;
+            color: var(--navy);
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* BUTTONS */
+
+        .btn-primary,
+        .btn-secondary,
+        .btn-danger {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 9px;
+            padding: 12px 19px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: .2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(
+                120deg,
+                #0030a5,
+                #145bea
+            );
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #082977;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--navy);
+            border-color: #a9c8f5;
+        }
+
+        .btn-secondary:hover {
+            background: #e8f1ff;
+            color: var(--navy);
+        }
+
+        .btn-danger {
+            border-color: #e65e6c;
+            color: #c62840;
+            background: white;
+        }
+
+        .btn-danger:hover {
+            color: white;
+            background: #d63049;
+        }
+
+        /* MAIN GRID */
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.3fr) minmax(280px, 1fr);
+            gap: 20px;
+        }
+
+        .left-column,
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-width: 0;
         }
 
         .content-card {
             background: white;
-            border-radius: 18px;
-            padding: 28px;
-            margin-bottom: 22px;
-            box-shadow: 0 8px 25px rgba(17, 17, 132, 0.05);
+            border-radius: 26px;
+            padding: 27px;
+            min-width: 0;
+            box-shadow: 0 10px 26px rgba(34,72,135,.045);
         }
 
-        .btn-blue {
-            background: #111184;
-            color: white;
-            border-radius: 10px;
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
-        .btn-blue:hover {
-            background: #2864e8;
-            color: white;
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -.4px;
+        }
+
+        .section-title i {
+            color: var(--navy);
+            font-size: 23px;
+        }
+
+        .section-subtitle {
+            margin: 7px 0 0;
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .count-pill {
+            display: inline-flex;
+            align-items: center;
+            background: #eaf2ff;
+            color: var(--navy);
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 9px 14px;
+        }
+
+        /* MEMBERS */
+
+        .member-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .member-item {
-            padding: 14px 0;
-            border-bottom: 1px solid #edf0f7;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 15px;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            background: #fbfcff;
+            transition: .25s;
         }
 
-        .member-item:last-child {
-            border-bottom: none;
+        .member-item:hover {
+            background: linear-gradient(
+                135deg,
+                #438dff,
+                #2465d9
+            );
+            border-color: #438dff;
+            box-shadow: 0 8px 24px rgba(36,101,217,.15);
+            transform: translateY(-2px);
+        }
+
+        .member-item:hover .member-name,
+        .member-item:hover .member-avatar {
+            color: white;
+        }
+
+        .member-item:hover .member-avatar {
+            background: rgba(255,255,255,.22);
+        }
+
+        .member-item:hover .role-badge {
+            background: rgba(255,255,255,.22);
+            color: white;
+        }
+
+        .member-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .member-avatar {
+            display: grid;
+            place-items: center;
+            width: 43px;
+            height: 43px;
+            flex-shrink: 0;
+            border-radius: 14px;
+            background: #e5efff;
+            color: var(--navy);
+            font-weight: 800;
+        }
+
+        .member-name {
+            font-size: 13px;
+            font-weight: 800;
+            overflow-wrap: anywhere;
+        }
+
+        .role-badge {
+            border-radius: 30px;
+            padding: 7px 13px;
+            background: #e8f1ff;
+            color: var(--navy);
+            font-size: 10px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            padding: 30px 10px;
+        }
+
+        /* EXPENSE SECTION */
+
+        .expense-banner {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 19px;
+            border-radius: 18px;
+            background: #eff5ff;
+            margin-bottom: 19px;
+        }
+
+        .expense-icon {
+            display: grid;
+            place-items: center;
+            width: 52px;
+            height: 52px;
+            flex-shrink: 0;
+            background: #dceaff;
+            border-radius: 16px;
+            color: var(--blue);
+            font-size: 25px;
+        }
+
+        .expense-banner strong {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .expense-banner p {
+            font-size: 12px;
+            line-height: 1.6;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        /* FORMS */
+
+        .form-label {
+            display: block;
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 9px;
+        }
+
+        .form-field input {
+            width: 100%;
+            border: 1px solid #d9e4f5;
+            border-radius: 13px;
+            padding: 13px 15px;
+            font-size: 13px;
+            color: var(--text);
+            outline: none;
+            background: #fbfcff;
+            transition: .2s;
+        }
+
+        .form-field input:focus {
+            border-color: var(--blue);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(18,96,229,.10);
+        }
+
+        .form-help {
+            font-size: 11px;
+            line-height: 1.6;
+            color: var(--muted);
+            margin: 0 0 18px;
+        }
+
+        .field-error {
+            color: #c62840;
+            font-size: 12px;
+            margin-top: 7px;
+        }
+
+        .danger-card {
+            border: 1px solid #ffe0e5;
+        }
+
+        .danger-card .section-title,
+        .danger-card .section-title i {
+            color: #cc354f;
+        }
+
+        .danger-card p {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        /* MESSAGES */
+
+        .message {
+            background: #e8f7ef;
+            color: #175b3d;
+            border-radius: 12px;
+            padding: 14px 17px;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            padding: 10px;
+            font-size: 11px;
+            color: #8090aa;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1000px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 720px) {
+            body {
+                padding: 12px;
+            }
+
+            .app-shell {
+                padding: 15px;
+                border-radius: 22px;
+            }
+
+            .navbar {
+                padding: 5px 4px 20px;
+            }
+
+            .brand {
+                font-size: 25px;
+            }
+
+            .nav-menu {
+                order: 3;
+                width: 100%;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+            }
+
+            .nav-item {
+                white-space: nowrap;
+                padding: 10px 14px;
+            }
+
+            .group-hero {
+                flex-direction: column;
+                padding: 24px;
+            }
+
+            .hero-actions {
+                width: 100%;
+            }
+
+            .content-card {
+                padding: 21px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .hero-actions {
+                flex-direction: column;
+            }
+
+            .hero-actions a {
+                width: 100%;
+            }
+
+            .member-item {
+                padding: 12px;
+            }
         }
     </style>
 </head>
+
 <body>
 
-<nav class="navbar navbar-dark">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="/dashboard/">
-            Splitly.
+<div class="app-shell">
+
+    <!-- NAVIGATION -->
+
+    <header class="navbar">
+
+        <a href="{% url 'dashboard' %}"
+           class="brand">
+
+            <span class="brand-symbol"
+                  aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
+
+            Splitly
         </a>
 
-        <a href="{% url 'expenses:group_list' %}"
-           class="btn btn-outline-light btn-sm">
-            All Groups
+        <nav class="nav-menu"
+             aria-label="Main navigation">
+
+            <a href="{% url 'dashboard' %}"
+               class="nav-item">
+                Dashboard
+            </a>
+
+            <a href="{% url 'expenses:group_list' %}"
+               class="nav-item active"
+               aria-current="page">
+                Groups
+            </a>
+
+            <a href="{% url 'expenses:group_list' %}"
+               class="nav-item">
+                Expenses
+            </a>
+
+            <span class="nav-item disabled"
+                  title="Balances coming soon">
+                Balances
+            </span>
+
+        </nav>
+
+        <a href="{% url 'profile' %}"
+           class="profile-icon"
+           title="My Profile"
+           aria-label="My Profile">
+
+            <i class="bi bi-person-fill"></i>
+
         </a>
-    </div>
-</nav>
 
-<main class="container page-container">
+    </header>
 
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-            {{ message }}
+    <main>
+
+        <!-- BREADCRUMB -->
+
+        <div class="breadcrumb">
+
+            <a href="{% url 'dashboard' %}">
+                Dashboard
+            </a>
+
+            <i class="bi bi-chevron-right"></i>
+
+            <a href="{% url 'expenses:group_list' %}">
+                Groups
+            </a>
+
+            <i class="bi bi-chevron-right"></i>
+
+            <span class="current">
+                {{ group.name }}
+            </span>
+
         </div>
-    {% endfor %}
 
-    <div class="content-card">
+        <!-- DJANGO MESSAGES -->
 
-        <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
-            <div>
-                <h2 class="fw-bold">{{ group.name }}</h2>
+        {% for message in messages %}
+            <div class="message">
+                {{ message }}
+            </div>
+        {% endfor %}
 
-                <p class="text-muted">
+        <!-- GROUP HERO -->
+
+        <section class="group-hero">
+
+            <div class="hero-main">
+
+                <div class="eyebrow">
+                    <i class="bi bi-people-fill"></i>
+                    GROUP DETAILS
+                </div>
+
+                <h1>{{ group.name }}</h1>
+
+                <p class="hero-description">
                     {{ group.description|default:"No group description." }}
                 </p>
 
-                <p class="small mb-0">
-                    <strong>Group Owner:</strong>
-                    {{ group.created_by.username }}
-                </p>
-                <a href="{% url 'expenses:expense_list' group.pk %}"
-                class="btn btn-blue mt-3">
-                    View Expenses →
-                </a>
-            </div>
+                <div class="owner-info">
 
-            {% if is_owner %}
-                <a href="{% url 'expenses:group_edit' group.pk %}"
-                   class="btn btn-blue">
-                    Edit Group
-                </a>
-            {% endif %}
-        </div>
+                    <div class="owner-avatar">
+                        {{ group.created_by.username|first|upper }}
+                    </div>
 
-    </div>
+                    <span>
+                        Created by
+                        <strong>{{ group.created_by.username }}</strong>
+                    </span>
 
-    <div class="content-card">
-
-        <h4 class="fw-bold mb-3">Group Members</h4>
-
-        {% for membership in memberships %}
-            <div class="member-item d-flex justify-content-between align-items-center">
-                <span>
-                    {{ membership.user.username }}
-                </span>
-
-                {% if membership.user_id == group.created_by_id %}
-                    <span class="badge bg-primary">Owner</span>
-                {% else %}
-                    <span class="badge bg-secondary">Member</span>
-                {% endif %}
-            </div>
-        {% empty %}
-            <p class="text-muted">No group members yet.</p>
-        {% endfor %}
-
-    </div>
-
-    {% if is_owner %}
-
-        <div class="content-card">
-
-            <h4 class="fw-bold mb-3">Add a Member</h4>
-
-            <p class="text-muted small">
-                Enter the username of an existing Splitly account.
-            </p>
-
-            <form method="POST"
-                  action="{% url 'expenses:group_add_member' group.pk %}">
-                {% csrf_token %}
-
-                <div class="mb-3">
-                    <label for="{{ member_form.username.id_for_label }}"
-                           class="form-label fw-semibold">
-                        Username
-                    </label>
-
-                    {{ member_form.username }}
                 </div>
 
-                <button type="submit" class="btn btn-blue px-4">
-                    Add Member
-                </button>
-            </form>
+            </div>
+
+            <div class="hero-actions">
+
+                <a href="{% url 'expenses:expense_list' group.pk %}"
+                   class="btn-primary">
+
+                    <i class="bi bi-receipt"></i>
+                    View Expenses
+
+                </a>
+
+                {% if is_owner %}
+
+                    <a href="{% url 'expenses:group_edit' group.pk %}"
+                       class="btn-secondary">
+
+                        <i class="bi bi-pencil-square"></i>
+                        Edit Group
+
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+        <!-- MAIN CONTENT -->
+
+        <div class="content-grid">
+
+            <!-- LEFT COLUMN -->
+
+            <div class="left-column">
+
+                <!-- GROUP MEMBERS -->
+
+                <section class="content-card">
+
+                    <div class="section-header">
+
+                        <div>
+                            <h2 class="section-title">
+                                <i class="bi bi-people"></i>
+                                Group Members
+                            </h2>
+
+                            <p class="section-subtitle">
+                                People included in this expense group.
+                            </p>
+                        </div>
+
+                        <span class="count-pill">
+                            {{ memberships|length }}
+                            Member{{ memberships|length|pluralize }}
+                        </span>
+
+                    </div>
+
+                    <div class="member-list">
+
+                        {% for membership in memberships %}
+
+                            <div class="member-item">
+
+                                <div class="member-info">
+
+                                    <div class="member-avatar">
+                                        {{ membership.user.username|first|upper }}
+                                    </div>
+
+                                    <div class="member-name">
+                                        {{ membership.user.username }}
+                                    </div>
+
+                                </div>
+
+                                {% if membership.user_id == group.created_by_id %}
+
+                                    <span class="role-badge">
+                                        Owner
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="role-badge">
+                                        Member
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+                        {% empty %}
+
+                            <div class="empty-state">
+                                No group members yet.
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </section>
+
+                <!-- GROUP EXPENSES -->
+
+                <section class="content-card">
+
+                    <div class="section-header">
+
+                        <div>
+                            <h2 class="section-title">
+                                <i class="bi bi-wallet2"></i>
+                                Shared Expenses
+                            </h2>
+
+                            <p class="section-subtitle">
+                                Track purchases and split expenses
+                                with this group's members.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="expense-banner">
+
+                        <div class="expense-icon">
+                            <i class="bi bi-receipt-cutoff"></i>
+                        </div>
+
+                        <div>
+                            <strong>Manage Shared Expenses</strong>
+
+                            <p>
+                                View existing expenses or add new
+                                shared costs to this group.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <a href="{% url 'expenses:expense_list' group.pk %}"
+                       class="btn-primary">
+
+                        <i class="bi bi-arrow-right-circle"></i>
+                        Go to Expenses
+
+                    </a>
+
+                </section>
+
+            </div>
+
+            <!-- RIGHT COLUMN -->
+
+            <div class="right-column">
+
+                {% if is_owner %}
+
+                    <!-- ADD MEMBER -->
+
+                    <section class="content-card">
+
+                        <div class="section-header">
+
+                            <div>
+                                <h2 class="section-title">
+                                    <i class="bi bi-person-plus"></i>
+                                    Add a Member
+                                </h2>
+
+                                <p class="section-subtitle">
+                                    Invite someone who already has
+                                    a Splitly account.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <form method="POST"
+                              action="{% url 'expenses:group_add_member' group.pk %}">
+
+                            {% csrf_token %}
+
+                            {% if member_form.non_field_errors %}
+                                <div class="field-error">
+                                    {{ member_form.non_field_errors }}
+                                </div>
+                            {% endif %}
+
+                            <p class="form-help">
+                                Enter the exact username of the
+                                person you want to add.
+                            </p>
+
+                            <div class="form-field">
+
+                                <label class="form-label"
+                                       for="{{ member_form.username.id_for_label }}">
+                                    Username
+                                </label>
+
+                                {{ member_form.username }}
+
+                                {% for error in member_form.username.errors %}
+                                    <div class="field-error">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+
+                            </div>
+
+                            <button type="submit"
+                                    class="btn-primary"
+                                    style="margin-top:17px;">
+
+                                <i class="bi bi-person-plus-fill"></i>
+                                Add Member
+
+                            </button>
+
+                        </form>
+
+                    </section>
+
+                    <!-- DANGER ZONE -->
+
+                    <section class="content-card danger-card">
+
+                        <div class="section-header">
+
+                            <h2 class="section-title">
+                                <i class="bi bi-exclamation-triangle"></i>
+                                Danger Zone
+                            </h2>
+
+                        </div>
+
+                        <p>
+                            Deleting this group is permanent.
+                            Its memberships and any related
+                            expense records may also be removed.
+                        </p>
+
+                        <form method="POST"
+                              action="{% url 'expenses:group_delete' group.pk %}"
+                              onsubmit="return confirm('Are you sure you want to permanently delete this group?');">
+
+                            {% csrf_token %}
+
+                            <button type="submit"
+                                    class="btn-danger">
+
+                                <i class="bi bi-trash3"></i>
+                                Delete Group
+
+                            </button>
+
+                        </form>
+
+                    </section>
+
+                {% else %}
+
+                    <!-- MEMBER INFORMATION -->
+
+                    <section class="content-card">
+
+                        <div class="section-header">
+
+                            <h2 class="section-title">
+                                <i class="bi bi-info-circle"></i>
+                                Group Information
+                            </h2>
+
+                        </div>
+
+                        <p class="section-subtitle">
+                            You're a member of this group.
+                            Only the group owner can edit
+                            group information or add members.
+                        </p>
+
+                        <a href="{% url 'expenses:group_list' %}"
+                           class="btn-secondary"
+                           style="margin-top:20px;">
+
+                            <i class="bi bi-arrow-left"></i>
+                            Back to Groups
+
+                        </a>
+
+                    </section>
+
+                {% endif %}
+
+            </div>
 
         </div>
 
-        <div class="content-card">
+    </main>
 
-            <h5 class="fw-bold text-danger">
-                Delete Group
-            </h5>
+    <footer class="footer">
+        Splitly — Share expenses, simplify life.
+    </footer>
 
-            <p class="text-muted small">
-                This permanently removes the group and its memberships.
-            </p>
-
-            <form method="POST"
-                  action="{% url 'expenses:group_delete' group.pk %}"
-                  onsubmit="return confirm('Are you sure you want to delete this group?');">
-                {% csrf_token %}
-
-                <button type="submit" class="btn btn-outline-danger">
-                    Delete Group
-                </button>
-            </form>
-
-        </div>
-
-    {% endif %}
-
-</main>
+</div>
 
 </body>
 </html>
